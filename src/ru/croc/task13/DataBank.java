@@ -11,4 +11,11 @@ public class DataBank {
         history = Converter.getHistory(historyPath);
     }
 
+    public Map<Integer, String> getFilms() {
+        return films;
+    }
+
+    public Map<Integer, List<Integer>> getHistory() {
+        return history;
+    }
 }
