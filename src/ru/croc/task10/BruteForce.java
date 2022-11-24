@@ -19,7 +19,7 @@ public class BruteForce implements Callable<String> {
     private long max() {
         return (long) Math.pow(26, LENGTH);
     }
-    private String createPassword(Long n) {
+    private String createPassword(long n) {
         int[] arr = new int[LENGTH];
 
         for (int i = 0 ; i < LENGTH; i++){
