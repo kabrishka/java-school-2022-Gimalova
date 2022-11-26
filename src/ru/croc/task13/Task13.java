@@ -1,9 +1,5 @@
 package ru.croc.task13;
 
-import ru.croc.task13.DataBank;
-
-import java.util.*;
-
 public class Task13 {
 
     public static void main(String[] args) {
