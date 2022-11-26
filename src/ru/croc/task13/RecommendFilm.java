@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class RecommendFilm {
-    private DataBank bank;
+    private final DataBank bank;
 
     public RecommendFilm(String filmPath, String historyPath) {
         this.bank = new DataBank(filmPath, historyPath);
@@ -25,20 +25,16 @@ public class RecommendFilm {
     private Integer getKeyPopularFilm(List<Integer> listSuitableFilms) {
         //часто встречающиеся фильмы
         Map<Integer, Integer> frequentlySeenFilms = new HashMap<>();
-        Iterator<Integer> iterator = listSuitableFilms.iterator();
-        while (iterator.hasNext()) {
-            Integer key = iterator.next();
-            if(!frequentlySeenFilms.containsKey(key)) {
-                frequentlySeenFilms.put(key,1);
+        for (Integer key : listSuitableFilms) {
+            if (!frequentlySeenFilms.containsKey(key)) {
+                frequentlySeenFilms.put(key, 1);
             } else {
                 Integer value = frequentlySeenFilms.get(key);
-                frequentlySeenFilms.put(key,value + 1);
+                frequentlySeenFilms.put(key, value + 1);
             }
         }
 
-        Integer keyOfMaxValue = frequentlySeenFilms.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
-
-        return keyOfMaxValue;
+        return frequentlySeenFilms.entrySet().stream().max((entry1, entry2) -> entry1.getValue() > entry2.getValue() ? 1 : -1).get().getKey();
 
     }
 
@@ -58,7 +54,7 @@ public class RecommendFilm {
         //Accumulate Stream<Integer> в List<Integer> с использованием Collectors.toList().
         //преобразование list к set , чтобы исключить повторения
         Set<Integer> uniqueUserFilms = Set.copyOf(list.stream()
-                .map(s -> Integer.parseInt(s))
+                .map(Integer::parseInt)
                 .collect(Collectors.toList()));
 
         //нам необходимы НЕ уникальные значения, чтобы пройтись по массиву
@@ -67,9 +63,8 @@ public class RecommendFilm {
 
         List<Integer> keys = new ArrayList<>(history.keySet());
         //берем по id
-        for(int i = 0; i < keys.size(); i++) {
+        for (Integer key : keys) {
             int count = 0;
-            Integer key = keys.get(i);
 //            //для того, чтобы не учитывать один и тот же фильм, приведем list фильмов к set
             List<Integer> historyFilmsList = history.get(key);
 
@@ -81,16 +76,16 @@ public class RecommendFilm {
             while (it.hasNext()) {
                 Integer film = it.next();
 
-                if(uniqueUserFilms.contains(film)) {
+                if (uniqueUserFilms.contains(film)) {
                     count++;
-                    historyFilmsList = deleteItem(historyFilmsList,film); //удаление всех эелементов списка == film
+                    historyFilmsList = deleteItem(historyFilmsList, film); //удаление всех эелементов списка == film
                     it = historyFilmsList.iterator();//необходимо обновить итератор, тк список изменился
 
                 } else {
                     recommendFilms.add(film);
                 }
             }
-            if(count >= Math.round(uniqueUserFilms.size()/2)){
+            if (count >= Math.round(uniqueUserFilms.size() / 2)) {
                 listSuitableFilms.addAll(recommendFilms);
 
             }
@@ -100,10 +95,8 @@ public class RecommendFilm {
 
     private List<Integer> deleteItem(List<Integer> mutableArray, Integer delValue) {
         List<Integer> newArray = new ArrayList<>();
-        Iterator<Integer> it = mutableArray.listIterator();
-        while(it.hasNext()) {
-            Integer currValue = it.next();
-            if(!(currValue.compareTo(delValue) == 0)) newArray.add(currValue);
+        for (Integer currValue : mutableArray) {
+            if (!(currValue.compareTo(delValue) == 0)) newArray.add(currValue);
         }
 
         return newArray;

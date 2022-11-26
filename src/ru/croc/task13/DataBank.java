@@ -3,8 +3,8 @@ package ru.croc.task13;
 import java.util.*;
 
 public class DataBank {
-    private Map<Integer, String> films;
-    private Map<Integer, List<Integer>> history;
+    private final Map<Integer, String> films;
+    private final Map<Integer, List<Integer>> history;
 
     public DataBank(String filmsPath, String historyPath) {
         films = Converter.getFilms(filmsPath);
