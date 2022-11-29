@@ -12,7 +12,7 @@ public class OrganisationWork {
         List<Department> departments = Converter.getDepartments(path);
         for(Department root : departments){
             if(root.parent.equals("-")){
-                return root.getTimeOfAppProcess(); // начиная с корневого отдела введём подсчёт времени
+                return root.getTimeOfAppProcess();
             }
         }
         return -1;
