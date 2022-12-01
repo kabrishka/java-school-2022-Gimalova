@@ -26,15 +26,6 @@ public class RecommendFilm {
     }
 
     private Integer getKeyPopularFilm(List<Integer> listSuitableFilms) {
-//        Map<Integer, Integer> frequentlySeenFilms = new HashMap<>();
-//
-//        listSuitableFilms
-//                .forEach(film -> {
-//                    if(!frequentlySeenFilms.containsKey(film)){
-//                        frequentlySeenFilms.put(film, Collections.frequency(listSuitableFilms, film));
-//                        System.out.println("Key: " + film + " Value: " + frequentlySeenFilms.get(film));
-//                    }
-//                });
 
         Map<Integer, Long> frequentlySeenFilms = listSuitableFilms.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
