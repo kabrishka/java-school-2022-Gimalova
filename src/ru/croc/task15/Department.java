@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Department {
-    public String parent;
-    public String name;
-    public int time;
-    public List<Department> childDepartments;
+    private final String parent;
+    private final String name;
+    private final int time;
+    private final List<Department> childDepartments;
 
     public Department(String name, String parent, int time) {
         this.name = name;
@@ -18,6 +18,14 @@ public class Department {
 
     public String getName() {
         return name;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void addChildDepartment(Department child) {
+        childDepartments.add(child);
     }
 
     /*
@@ -33,9 +41,7 @@ public class Department {
     public int getTimeOfAppProcess() {
         int appTime = 0; //время затраченное на обработку
         for (Department child: this.childDepartments) {
-            int childTime = child.getTimeOfAppProcess();
-            if (childTime > appTime)
-                appTime = childTime;
+            appTime = Math.max(appTime,child.getTimeOfAppProcess());
         }
         return this.time + appTime;
     }
