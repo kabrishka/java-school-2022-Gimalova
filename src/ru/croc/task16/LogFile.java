@@ -35,8 +35,7 @@ public class LogFile {
         //Обход файлов в директории (+дочерних директорий)
         for(File file : Files.walk(directory)
                 .filter(Files::isRegularFile)
-                .filter(file -> file.getFileName().toString().endsWith(".log")
-                        || file.getFileName().toString().endsWith(".trace"))
+                .filter(file -> file.getFileName().toString().matches(".+(.log|.LOG|.trace|.TRACE)"))
                 .map(Path::toFile).toList()) {
             queue.add(new LogBufferedReader(file));
         }
