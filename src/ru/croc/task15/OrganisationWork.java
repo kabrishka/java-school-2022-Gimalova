@@ -9,15 +9,6 @@ import java.util.Map;
 public class OrganisationWork {
     private static Department root;
 
-    /*
-     * Метод перевода текстового файла в массив отделов и получения максимального времени обработки заявки
-     *
-     * @param path - путь до файла
-     *
-     * Если отдел корневой -> добавляем в список родителя
-     * Если отдел не корневой -> 1. добавляем в список родительского отдела
-     *                           2. добавляем в список родителя
-     * */
     public static Department parseFromFile(String path) throws IOException{
         Map<String, Department> departments = new HashMap<>();
 
