@@ -51,18 +51,14 @@ public class LogFile {
      * */
     public static void joinLogs(String directory) throws IOException {
         directoryWalk(Path.of(directory));
-        File resultFile = createNewLogFile();
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(resultFile))) {
-            while (!queue.isEmpty()) {
-                LogBufferedReader logFile = queue.poll();
-                System.out.println(logFile.getMessage());
-                bw.write( logFile.getMessage() + "\n");
-                if (logFile.readLine() != null) {
-                    queue.add(logFile);
-                    continue;
-                }
-                logFile.getBufferedReader().close();
+        while (!queue.isEmpty()) {
+            LogBufferedReader logFile = queue.poll();
+            System.out.println(logFile.getMessage());
+            if (logFile.readLine() != null) {
+                queue.add(logFile);
+                continue;
             }
+            logFile.getBufferedReader().close();
         }
     }
 }
