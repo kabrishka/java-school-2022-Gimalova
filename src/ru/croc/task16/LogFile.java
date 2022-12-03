@@ -6,24 +6,8 @@ import java.nio.file.Path;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
-import static org.testng.Reporter.log;
-
 public class LogFile {
     private static final Queue<LogBufferedReader> queue = new PriorityQueue<>(new TimeComparator());
-
-    private static File createNewLogFile() throws IOException {
-        //создание нового файла
-        File resultFile = new File("src/ru/croc/task16/result/result.log");
-
-        if (resultFile.createNewFile()){
-            log("File is created!");
-        }
-        else{
-            log("File already exists.");
-        }
-        return resultFile;
-    }
-
 
     /*
     * Создание очереди c приоритетом объектов LogBufferedReader, чтобы была возможность работать с полем время
