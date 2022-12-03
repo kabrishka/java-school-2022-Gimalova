@@ -56,10 +56,13 @@ public class LogFile {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(resultFile))) {
             while (!queue.isEmpty()) {
                 LogBufferedReader logFile = queue.poll();
+                System.out.println(logFile.getMessage());
                 bw.write( logFile.getMessage() + "\n");
                 if (logFile.readLine() != null) {
                     queue.add(logFile);
+                    continue;
                 }
+                logFile.getBufferedReader().close();
             }
         }
     }

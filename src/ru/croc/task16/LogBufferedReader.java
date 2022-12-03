@@ -3,14 +3,18 @@ package ru.croc.task16;
 import java.io.*;
 
 public class LogBufferedReader {
-    private final BufferedReader br;
+    private final BufferedReader bufferedReader;
     private long time;
     private String message;
 
 
     public LogBufferedReader(File path) throws IOException {
-        br = new BufferedReader(new FileReader(path));
+        this.bufferedReader = new BufferedReader(new FileReader(path));
         readLine();
+    }
+
+    public BufferedReader getBufferedReader() {
+        return bufferedReader;
     }
 
     public long getTime() {
@@ -22,9 +26,9 @@ public class LogBufferedReader {
 
 
     public String readLine() throws IOException {
-        message = br.readLine();
+        message = this.bufferedReader.readLine();
         if (message != null)
-            time = Integer.parseInt(message.split(" ")[0]);
+            time = Long.parseLong(message.split(" ")[0]);
         return message;
     }
 
