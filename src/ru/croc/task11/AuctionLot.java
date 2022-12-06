@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class AuctionLot {
     private volatile int price;
     private volatile String owner;
-    private LocalDateTime endTime;
+    private final LocalDateTime endTime;
 
     AuctionLot(int startPrice, LocalDateTime endTime) {
         this.price = price;
