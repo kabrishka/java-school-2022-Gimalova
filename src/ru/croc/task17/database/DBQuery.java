@@ -22,22 +22,22 @@ public class DBQuery {
 
     public void createDbTable() {
         String CREATE_PRODUCTS_QUERY = "CREATE TABLE IF NOT EXISTS Products("
-                + "ID INTEGER NOT NULL PRIMARY  KEY, "
+                + "ID INTEGER PRIMARY  KEY NOT NULL AUTO_INCREMENT, "
                 + "VENDOR_CODE VARCHAR(20), "
                 + "PRODUCT_NAME CHARACTER VARYING(30), "
                 + "PRICE INTEGER"
                 + ")";
         String CREATE_USERS_QUERY = "CREATE TABLE IF NOT EXISTS Users("
-                + "ID INTEGER NOT NULL PRIMARY KEY, "
+                + "ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, "
                 + "LOGIN VARCHAR(20) "
                 + ")";
 
         String CREATE_ORDERS_QUERY = "CREATE TABLE IF NOT EXISTS Orders("
-                + "ID INTEGER NOT NULL PRIMARY KEY, "
-                + "LOGIN_ID INTEGER NOT NULL, "
-                + "VENDOR_CODE_ID INTEGER NOT NULL, "
-                + "PRODUCT_NAME_ID INTEGER NOT NULL, "
-                + "PRICE_ID INTEGER NOT NULL,"
+                + "ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, "
+                + "LOGIN_ID INTEGER, "
+                + "VENDOR_CODE_ID INTEGER, "
+                + "PRODUCT_NAME_ID INTEGER, "
+                + "PRICE_ID INTEGER,"
                 + "FOREIGN KEY (LOGIN_ID) REFERENCES Users(ID),"
                 + "FOREIGN KEY (VENDOR_CODE_ID) REFERENCES Products(ID),"
                 + "FOREIGN KEY (PRODUCT_NAME_ID) REFERENCES Products(ID),"
@@ -81,14 +81,13 @@ public class DBQuery {
         }
     }
 
-    public void insertIntoProducts(Integer id,Product product) {
-        String INSERT_PRODUCTS_QUERY = "INSERT INTO products (id,vendor_code,product_name,price) VALUES (?, ?, ?, ?)";
+    public void insertIntoProducts(Product product) {
+        String INSERT_PRODUCTS_QUERY = "INSERT INTO products (vendor_code,product_name,price) VALUES (?, ?, ?)";
         try {
             preparedStatement = dbConnection.prepareStatement(INSERT_PRODUCTS_QUERY);
-            preparedStatement.setInt(1,id);
-            preparedStatement.setString(2,product.vendor_code);
-            preparedStatement.setString(3,product.product_name);
-            preparedStatement.setInt(4,product.price);
+            preparedStatement.setString(1,product.vendor_code);
+            preparedStatement.setString(2,product.product_name);
+            preparedStatement.setInt(3,product.price);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,27 +95,25 @@ public class DBQuery {
 
     }
 
-    public void insertIntoUser(Integer id, User user) {
-        String INSERT_USERS_QUERY = "INSERT INTO users (id, login) VALUES (?, ?)";
+    public void insertIntoUser(User user) {
+        String INSERT_USERS_QUERY = "INSERT INTO users (login) VALUES (?)";
          try {
              preparedStatement = dbConnection.prepareStatement(INSERT_USERS_QUERY);
-             preparedStatement.setInt(1, id);
-             preparedStatement.setString(2, user.login);
+             preparedStatement.setString(1, user.login);
              preparedStatement.executeUpdate();
          } catch (SQLException e) {
             e.printStackTrace();
          }
     }
 
-    public void insertIntoOrder(Integer id, Order order) {
-        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (id,login_id,vendor_code_id,product_name_id,price_id) VALUES (?,?,?,?,?)";
+    public void insertIntoOrder(Order order) {
+        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (login_id,vendor_code_id,product_name_id,price_id) VALUES (?,?,?,?)";
          try {
              preparedStatement = dbConnection.prepareStatement(INSERT_ORDERS_QUERY);
-             preparedStatement.setInt(1,id);
-             preparedStatement.setInt(2,order.login_id);
-             preparedStatement.setInt(3,order.vendor_code_id);
-             preparedStatement.setInt(4,order.product_name_id);
-             preparedStatement.setInt(5,order.price_id);
+             preparedStatement.setInt(1,order.login_id);
+             preparedStatement.setInt(2,order.vendor_code_id);
+             preparedStatement.setInt(3,order.product_name_id);
+             preparedStatement.setInt(4,order.price_id);
              preparedStatement.executeUpdate();
          } catch (SQLException e) {
              e.printStackTrace();

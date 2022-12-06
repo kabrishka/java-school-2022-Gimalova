@@ -36,14 +36,14 @@ public class Parser {
                         Integer.parseInt(record[4].replaceAll(" ", "")));
                 if(!products.containsValue(product)) {
                     products.put(productId,product);
-                    query.insertIntoProducts(productId, product);
+                    query.insertIntoProducts(product);
                     productId++;
                 }
 
                 User user = new User(record[1]);
                 if(!users.containsValue(user)) {
                     users.put(userId, user);
-                    query.insertIntoUser(userId, user);
+                    query.insertIntoUser(user);
                     userId++;
                 }
 
@@ -51,7 +51,7 @@ public class Parser {
                 int currProductId = getKey(products, product);
                 Order order = new Order(currUserId,currProductId,currProductId,currProductId);
                 orders.put(orderId, order);
-                query.insertIntoOrder(orderId, order);
+                query.insertIntoOrder(order);
                 orderId++;
             }
             query.dbClose();
