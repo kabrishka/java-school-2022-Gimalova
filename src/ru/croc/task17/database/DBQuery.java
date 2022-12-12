@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-public class DBQuery {
+public class DBQuery implements AutoCloseable{
     private final Connection dbConnection;
     private final Statement statement;
     private PreparedStatement preparedStatement;
@@ -17,6 +17,16 @@ public class DBQuery {
             this.statement = dbConnection.createStatement();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (statement != null) {
+            statement.close();
+        }
+        if (dbConnection != null) {
+            dbConnection.close();
         }
     }
 
@@ -35,13 +45,9 @@ public class DBQuery {
         String CREATE_ORDERS_QUERY = "CREATE TABLE IF NOT EXISTS Orders("
                 + "ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, "
                 + "LOGIN_ID INTEGER, "
-                + "VENDOR_CODE_ID INTEGER, "
-                + "PRODUCT_NAME_ID INTEGER, "
-                + "PRICE_ID INTEGER,"
+                + "PRODUCT_ID INTEGER, "
                 + "FOREIGN KEY (LOGIN_ID) REFERENCES Users(ID),"
-                + "FOREIGN KEY (VENDOR_CODE_ID) REFERENCES Products(ID),"
-                + "FOREIGN KEY (PRODUCT_NAME_ID) REFERENCES Products(ID),"
-                + "FOREIGN KEY (PRICE_ID) REFERENCES Products(ID)"
+                + "FOREIGN KEY (PRODUCT_ID) REFERENCES Products(ID)"
                 + ")";
 
         try {
@@ -53,7 +59,7 @@ public class DBQuery {
             statement.execute(CREATE_ORDERS_QUERY);
             System.out.println("Table \"dborders\" is created!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -69,24 +75,17 @@ public class DBQuery {
             statement.execute(DELETE_USERS_QUERY);
             System.out.println("Table \"dbusers\" is deleted!");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
-    public void dbClose() throws SQLException {
-        if (statement != null) {
-            statement.close();
-        }
-        if (dbConnection != null) {
-            dbConnection.close();
-        }
-    }
+
 
     public void insertIntoProducts(Product product) {
         String INSERT_PRODUCTS_QUERY = "INSERT INTO products (vendor_code,product_name,price) VALUES (?, ?, ?)";
         try {
             preparedStatement = dbConnection.prepareStatement(INSERT_PRODUCTS_QUERY);
-            preparedStatement.setString(1,product.vendor_code);
-            preparedStatement.setString(2,product.product_name);
+            preparedStatement.setString(1,product.vendorCode);
+            preparedStatement.setString(2,product.productName);
             preparedStatement.setInt(3,product.price);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -107,13 +106,11 @@ public class DBQuery {
     }
 
     public void insertIntoOrder(Order order) {
-        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (login_id,vendor_code_id,product_name_id,price_id) VALUES (?,?,?,?)";
+        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (login_id,product_id) VALUES (?,?)";
          try {
              preparedStatement = dbConnection.prepareStatement(INSERT_ORDERS_QUERY);
-             preparedStatement.setInt(1,order.login_id);
-             preparedStatement.setInt(2,order.vendor_code_id);
-             preparedStatement.setInt(3,order.product_name_id);
-             preparedStatement.setInt(4,order.price_id);
+             preparedStatement.setInt(1,order.userId);
+             preparedStatement.setInt(2,order.productId);
              preparedStatement.executeUpdate();
          } catch (SQLException e) {
              e.printStackTrace();

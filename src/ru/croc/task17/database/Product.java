@@ -1,13 +1,13 @@
 package ru.croc.task17.database;
 
 public class Product {
-    String vendor_code;
-    String product_name;
+    String vendorCode;
+    String productName;
     int price;
 
-    public Product(String vendor_code, String product_name, int price) {
-        this.vendor_code = vendor_code;
-        this.product_name = product_name;
+    public Product(String vendorCode, String productName, int price) {
+        this.vendorCode = vendorCode;
+        this.productName = productName;
         this.price = price;
     }
 
@@ -23,15 +23,15 @@ public class Product {
         }
         Product thing = (Product) obj;
         return price == thing.price
-                && (vendor_code != null && vendor_code.equals(thing.vendor_code))
-                && (product_name != null && product_name.equals(thing.product_name));
+                && (vendorCode != null && vendorCode.equals(thing.vendorCode))
+                && (productName != null && productName.equals(thing.productName));
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                "vendor_code='" + vendor_code + '\'' +
-                ", product_name='" + product_name + '\'' +
+                "vendorCode='" + vendorCode + '\'' +
+                ", productName='" + productName + '\'' +
                 ", price=" + price +
                 '}';
     }
