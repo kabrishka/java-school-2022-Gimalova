@@ -1,6 +1,8 @@
 package ru.croc.task18;
 
 import ru.croc.task18.entity.Product;
+import ru.croc.task18.exceptions.FieldAlreadyExists;
+import ru.croc.task18.exceptions.MissingFieldInDb;
 import ru.croc.task18.service.OrderService;
 import ru.croc.task18.service.ProductService;
 
@@ -9,23 +11,31 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Task18 {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, MissingFieldInDb, FieldAlreadyExists {
         ProductService productService = new ProductService();
         OrderService orderService = new OrderService();
 
         Product jacketForProgrammer = new Product(); //кружка для программиста
         jacketForProgrammer.setId(6);
-        jacketForProgrammer.setVendor_code("Т6");
-        jacketForProgrammer.setProduct_name("Кружка для программиста");
+        jacketForProgrammer.setVendorCode("Т6");
+        jacketForProgrammer.setProductName("Кружка для программиста");
         jacketForProgrammer.setPrice(70);
         productService.createProduct(jacketForProgrammer);
+
+        System.out.println("============================================================");
+        Product newJacketForProgrammer = new Product(); //кружка для программиста
+        newJacketForProgrammer.setId(6);
+        newJacketForProgrammer.setVendorCode("Т6");
+        newJacketForProgrammer.setProductName("Кружка для программиста NEW!!!");
+        newJacketForProgrammer.setPrice(10000);
+        productService.updateProduct(newJacketForProgrammer);
 
         System.out.println("============================================================");
 
         Product tablet = new Product(); //планшет
         tablet.setId(7);
-        tablet.setVendor_code("Т7");
-        tablet.setProduct_name("Планшет");
+        tablet.setVendorCode("Т7");
+        tablet.setProductName("Планшет");
         tablet.setPrice(60);
         productService.createProduct(tablet);
 
@@ -33,8 +43,8 @@ public class Task18 {
 
         Product productToDelete = new Product();
         productToDelete.setId(8);
-        productToDelete.setVendor_code("Т8");
-        productToDelete.setProduct_name("delete");
+        productToDelete.setVendorCode("Т8");
+        productToDelete.setProductName("delete");
         productToDelete.setPrice(0);
         productService.createProduct(productToDelete);
 
@@ -46,7 +56,7 @@ public class Task18 {
 
         System.out.println("============================================================");
 
-        System.out.println("We found : " + productService.findProduct("Т7"));
+        System.out.println("We found : " + productService.findProduct("Т10"));
 
         System.out.println("============================================================");
 
@@ -56,8 +66,23 @@ public class Task18 {
 
         List<Product> products = Arrays.asList(jacketForProgrammer, tablet);
         orderService.createOrder("vasya",products);
+
+        System.out.println("============================================================");
+
+        Product wrongProduct = new Product();
+        wrongProduct.setId(12);
+        wrongProduct.setVendorCode("Т6");
+        wrongProduct.setProductName("wrong");
+        wrongProduct.setPrice(0);
+        productService.createProduct(wrongProduct);
+
+        System.out.println("============================================================");
+        Product wrongProduct1 = new Product();
+        wrongProduct1.setId(12);
+        wrongProduct1.setVendorCode("Т101");
+        wrongProduct1.setProductName("wrong");
+        wrongProduct1.setPrice(0);
+        productService.updateProduct(wrongProduct1);
+
     }
-
-
-
 }

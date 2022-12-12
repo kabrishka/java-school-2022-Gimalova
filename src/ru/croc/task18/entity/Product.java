@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Product {
     private int id;
-    private String vendor_code;
-    private String product_name;
+    private String vendorCode;
+    private String productName;
     private Integer price;
 
     public Product() {
@@ -19,20 +19,20 @@ public class Product {
         this.id = id;
     }
 
-    public String getVendor_code() {
-        return vendor_code;
+    public String getVendorCode() {
+        return vendorCode;
     }
 
-    public void setVendor_code(String vendor_code) {
-        this.vendor_code = vendor_code.replaceAll(" ", "");
+    public void setVendorCode(String vendorCode) {
+        this.vendorCode = vendorCode.replaceAll(" ", "");
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name.replaceAll(" ", "_");
+    public void setProductName(String productName) {
+        this.productName = productName.replaceAll(" ", "_");
     }
 
     public Integer getPrice() {
@@ -51,8 +51,8 @@ public class Product {
         Product product = (Product) o;
 
         if (id != product.id) return false;
-        if (!Objects.equals(vendor_code, product.vendor_code)) return false;
-        if (!Objects.equals(product_name, product.product_name))
+        if (!Objects.equals(vendorCode, product.vendorCode)) return false;
+        if (!Objects.equals(productName, product.productName))
             return false;
         return Objects.equals(price, product.price);
     }
@@ -60,8 +60,8 @@ public class Product {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (vendor_code != null ? vendor_code.hashCode() : 0);
-        result = 31 * result + (product_name != null ? product_name.hashCode() : 0);
+        result = 31 * result + (vendorCode != null ? vendorCode.hashCode() : 0);
+        result = 31 * result + (productName != null ? productName.hashCode() : 0);
         result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }
@@ -70,8 +70,8 @@ public class Product {
     public String toString() {
         return "Product{" +
                 "id=" + id +
-                ", vendor_code='" + vendor_code + '\'' +
-                ", product_name='" + product_name + '\'' +
+                ", vendor_code='" + vendorCode + '\'' +
+                ", product_name='" + productName + '\'' +
                 ", price=" + price +
                 '}';
     }
