@@ -44,9 +44,9 @@ public class DBQuery implements AutoCloseable{
 
         String CREATE_ORDERS_QUERY = "CREATE TABLE IF NOT EXISTS Orders("
                 + "ID INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT, "
-                + "LOGIN_ID INTEGER, "
+                + "USER_ID INTEGER, "
                 + "PRODUCT_ID INTEGER, "
-                + "FOREIGN KEY (LOGIN_ID) REFERENCES Users(ID),"
+                + "FOREIGN KEY (USER_ID) REFERENCES Users(ID),"
                 + "FOREIGN KEY (PRODUCT_ID) REFERENCES Products(ID)"
                 + ")";
 
@@ -106,7 +106,7 @@ public class DBQuery implements AutoCloseable{
     }
 
     public void insertIntoOrder(Order order) {
-        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (login_id,product_id) VALUES (?,?)";
+        String INSERT_ORDERS_QUERY = "INSERT INTO Orders (user_id,product_id) VALUES (?,?)";
          try {
              preparedStatement = dbConnection.prepareStatement(INSERT_ORDERS_QUERY);
              preparedStatement.setInt(1,order.userId);
